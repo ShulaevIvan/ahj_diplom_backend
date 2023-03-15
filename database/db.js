@@ -5,16 +5,17 @@ class Database {
     }
 
     add(data) {
+        console.log(data)
         this.id += 1;
         const obj = {
             id: this.id,
             data: data,
             type: undefined,
         }
-        this.allData.push(data);
+        this.allData.push(obj);
     }
 }
 
 const database = new Database();
 
-module.exports = database
+module.exports = database;

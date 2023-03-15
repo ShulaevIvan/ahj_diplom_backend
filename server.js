@@ -22,6 +22,7 @@ wsServer.on('connection', (ws) => {
 
   ws.on('message', (e) => {
     const data = JSON.parse(e.toString());
+    console.log(data)
     database.add(data)
   });
 
