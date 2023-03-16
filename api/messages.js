@@ -20,3 +20,17 @@ exports.addMesssage = (data) => new Promise((resolve, reject) => {
     console.log(err);
   }
 });
+
+exports.lastMessages = (ctx) => new Promise((resolve, reject) => {
+  try {
+    const result = {
+      status: 'ok',
+      messages: database.last()
+    };
+    resolve(result);
+  }
+  catch (err) {
+    console.log(err);
+  }
+
+});

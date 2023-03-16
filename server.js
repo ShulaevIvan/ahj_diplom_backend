@@ -22,8 +22,10 @@ wsServer.on('connection', (ws) => {
 
   ws.on('message', (e) => {
     const data = JSON.parse(e.toString());
-    console.log(data)
-    database.add(data)
+    const id = database.add(data);
+    Array.from(wsServer.clients)
+    .filter((client) => client.readyState === WS.OPEN)
+    .forEach((client) => client.send(JSON.stringify(id)));
   });
 
 
