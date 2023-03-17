@@ -4,7 +4,7 @@ exports.getMessages = (ctx) => new Promise((resolve, reject) => {
     try {
       const result = {
         status: 'ok',
-        messages: database.allData
+        messages: database.allData.sort((a, b) => a.data.date - b.data.date)
       };
       resolve(result);
     } catch (err) {
