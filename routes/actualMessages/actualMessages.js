@@ -4,10 +4,10 @@ const api = require('../../api/messages');
 const router = new Router();
 router.allowedMethods();
 
-router.get('/messages', async (ctx) => {
-  const result = await api.getMessages();
-  ctx.response.body = result;
-  ctx.response.status = 200;
+router.post('/messages/actual', async (ctx) => {
+
+    const result = await api.actualMessages(ctx.request.body);
+    ctx.status = 201;
 });
 
 

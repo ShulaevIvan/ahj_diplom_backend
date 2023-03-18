@@ -22,10 +22,14 @@ wsServer.on('connection', (ws) => {
 
   ws.on('message', (e) => {
     const data = JSON.parse(e.toString());
-    const id = database.add(data);
-    Array.from(wsServer.clients)
-    .filter((client) => client.readyState === WS.OPEN)
-    .forEach((client) => client.send(JSON.stringify(id)));
+    if (data) {
+      const id = database.incrementId()
+      database.add(data);
+      // console.log(database)
+      // Array.from(wsServer.clients)
+      // .filter((client) => client.readyState === WS.OPEN)
+      // .forEach((client) => client.send(JSON.stringify(id)));
+    }
   });
 
 

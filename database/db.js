@@ -1,34 +1,36 @@
 class Database {
     constructor() {
         this.allData = [];
-        this.history = [];
-        this.id = 0;
+        this.history = undefined;
+        this.actualMessages = [];
+        this.id = 1;
+        this.allIds = [];
         this.counter = 0;
     }
 
-    add(data) {
+    incrementId() {
         this.id += 1;
+        return this.id;
+    }
+
+
+    add(data) {
         const obj = {
-            id: this.id,
             data: data,
             type: undefined,
         }
-
         this.allData.push(obj);
-        this.counter +=1
-        if (this.counter === 10) {
-            this.counter = 0;
-            this.history.push(this.allData)
-            return this.id
-        }
-        return this.id
+        this.counter +=1;
     }
     
     last() {
       const currentDate = new Date().getTime()
       const last = this.allData.reverse().slice(-10);
-      console.log(this.history)
       return last
+    }
+
+    lastId() {
+        return this.id;
     }
 }
 

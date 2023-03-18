@@ -4,7 +4,7 @@ exports.getMessages = (ctx) => new Promise((resolve, reject) => {
     try {
       const result = {
         status: 'ok',
-        messages: database.allData.sort((a, b) => a.data.date - b.data.date)
+        messages: database.allData,
       };
       resolve(result);
     } catch (err) {
@@ -12,14 +12,6 @@ exports.getMessages = (ctx) => new Promise((resolve, reject) => {
     }
 });
 
-exports.addMesssage = (data) => new Promise((resolve, reject) => {
-  try {
-    console.log(data);
-  }
-  catch (err) {
-    console.log(err);
-  }
-});
 
 exports.lastMessages = (ctx) => new Promise((resolve, reject) => {
   try {
@@ -33,4 +25,51 @@ exports.lastMessages = (ctx) => new Promise((resolve, reject) => {
     console.log(err);
   }
 
+});
+
+exports.actualMessages = (ctx) => new Promise((resolve, reject) => {
+  try {
+    const displayingMessages = ctx;
+    const loadingMessages = [];
+    database.allData.forEach((item) => {
+      if (!displayingMessages.includes(item.data.id))loadingMessages.push(item);
+    });
+    database.history = loadingMessages;
+    const result = {
+      status: 'ok',
+    };
+    resolve(result);
+  }
+  catch (err) {
+    console.log(err);
+  }
+
+});
+
+exports.getLastId = (ctx) => new Promise((resolve, reject) => {
+  try {
+    const result = {
+      status: 'ok',
+      lastId: database.lastId()
+    };
+    resolve(result);
+  }
+  catch (err) {
+    console.log(err);
+  }
+
+});
+
+exports.loadHistory = (ctx) => new Promise((resolve, reject) => {
+  try {
+    const result = {
+      status: 'ok',
+      history: database.history
+    };
+    resolve(result);
+  }
+  catch (err) {
+    console.log(err);
+  }
+  
 });
