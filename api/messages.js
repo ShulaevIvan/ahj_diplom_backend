@@ -4,7 +4,7 @@ exports.getMessages = (ctx) => new Promise((resolve, reject) => {
     try {
       const result = {
         status: 'ok',
-        messages: database.allData,
+        messages: database.allData
       };
       resolve(result);
     } catch (err) {
@@ -64,7 +64,7 @@ exports.loadHistory = (ctx) => new Promise((resolve, reject) => {
   try {
     const result = {
       status: 'ok',
-      history: database.history
+      history: database.history.sort((a, b) => new Date(a.data.date) - new Date(b.data.date)).reverse(),
     };
     resolve(result);
   }

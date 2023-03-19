@@ -25,7 +25,7 @@ class Database {
     
     last() {
       const currentDate = new Date().getTime()
-      const last = this.allData.reverse().slice(-10);
+      const last = this.allData.slice(-10);
       return last
     }
 
