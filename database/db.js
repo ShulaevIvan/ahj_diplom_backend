@@ -6,6 +6,7 @@ class Database {
         this.id = 1;
         this.allIds = [];
         this.counter = 0;
+        this.historyCounter = 0;
     }
 
     incrementId() {
