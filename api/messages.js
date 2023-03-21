@@ -91,3 +91,18 @@ exports.loadHistory = (ctx) => new Promise((resolve, reject) => {
   }
   
 });
+
+exports.searchMessages = (ctx) => new Promise((resolve, reject) => {
+  try {
+    const searchName = ctx.request.query;
+    const searchData = database.allData.filter((findObj) => findObj.data.name === searchName.text)
+    const result = {
+      status: 'ok',
+      messages: searchData
+    }
+    resolve(result)
+  }
+  catch (err) {
+    console.log(err);
+  }
+})

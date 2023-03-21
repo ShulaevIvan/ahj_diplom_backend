@@ -6,6 +6,7 @@ const lastMessages = require('./lastMessages/lastMessages');
 const actualMessages = require('./actualMessages/actualMessages');
 const getLastId = require('./getLastId/getLastId');
 const loadHistory = require('./loadHistory/loadHistory');
+const searchMessages = require('./searchMessages/searchMessages');
 
 
 const router = combineRouters(
@@ -15,7 +16,8 @@ const router = combineRouters(
   lastMessages,
   actualMessages,
   getLastId,
-  loadHistory
+  loadHistory,
+  searchMessages
 
 );
 
