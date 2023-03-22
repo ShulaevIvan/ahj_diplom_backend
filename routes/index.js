@@ -7,6 +7,7 @@ const actualMessages = require('./actualMessages/actualMessages');
 const getLastId = require('./getLastId/getLastId');
 const loadHistory = require('./loadHistory/loadHistory');
 const searchMessages = require('./searchMessages/searchMessages');
+const getWeather = require('./commands/getWeather');
 
 
 const router = combineRouters(
@@ -17,7 +18,8 @@ const router = combineRouters(
   actualMessages,
   getLastId,
   loadHistory,
-  searchMessages
+  searchMessages,
+  getWeather
 
 );
 

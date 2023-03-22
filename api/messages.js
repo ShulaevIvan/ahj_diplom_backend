@@ -106,3 +106,17 @@ exports.searchMessages = (ctx) => new Promise((resolve, reject) => {
     console.log(err);
   }
 })
+
+exports.getWeather = (ctx) => new Promise((resolve, reject) => {
+  try {
+    
+    const result = {
+      status: 'ok',
+      weather: database.generateWeather()
+    }
+    resolve(result)
+  }
+  catch (err) {
+    console.log(err);
+  }
+})
