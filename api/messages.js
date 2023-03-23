@@ -105,7 +105,7 @@ exports.searchMessages = (ctx) => new Promise((resolve, reject) => {
   catch (err) {
     console.log(err);
   }
-})
+});
 
 exports.getWeather = (ctx) => new Promise((resolve, reject) => {
   try {
@@ -119,4 +119,35 @@ exports.getWeather = (ctx) => new Promise((resolve, reject) => {
   catch (err) {
     console.log(err);
   }
-})
+});
+
+exports.deleteAllMessages = (ctx) => new Promise((resolve, reject) => {
+  try {
+    database.allData = [];
+    const result = {
+      status: 'ok',
+    }
+    resolve(result)
+  }
+  catch (err) {
+    console.log(err);
+  }
+});
+
+exports.getFiles = (ctx) => new Promise((resolve, reject) => {
+  try {
+    let filterData = [];
+    if (database.allData.length > 0) {
+      filterData = database.allData.filter((msg) => msg.data.file);
+    }
+    const result = {
+      status: 'ok',
+      fiels: filterData
+    }
+    resolve(result);
+    
+  }
+  catch (err) {
+    console.log(err);
+  }
+});

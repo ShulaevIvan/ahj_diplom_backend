@@ -31,7 +31,6 @@ class Database {
                 day: new Date(timestamp).getDay(),
                 temp: randTemp,
                 wind: randWind,
-                
             }
             resultData.push(weatherObj);
         }

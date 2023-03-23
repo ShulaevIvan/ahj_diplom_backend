@@ -8,6 +8,8 @@ const getLastId = require('./getLastId/getLastId');
 const loadHistory = require('./loadHistory/loadHistory');
 const searchMessages = require('./searchMessages/searchMessages');
 const getWeather = require('./commands/getWeather');
+const deleteAllMessages = require('./commands/deleteAllMessages');
+const getFiles = require('./commands/getFiles');
 
 
 const router = combineRouters(
@@ -19,8 +21,9 @@ const router = combineRouters(
   getLastId,
   loadHistory,
   searchMessages,
-  getWeather
-
+  getWeather,
+  deleteAllMessages,
+  getFiles,
 );
 
 module.exports = router;
