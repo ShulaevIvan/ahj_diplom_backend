@@ -136,9 +136,36 @@ exports.deleteAllMessages = (ctx) => new Promise((resolve, reject) => {
 
 exports.getFiles = (ctx) => new Promise((resolve, reject) => {
   try {
+    const audioTypes = ['audio/ogg', 'audio/wav', 'audio/mp3', 'audio/mpeg'];
+    const videoTypes = ['video/mp4', 'video/ogg', 'video/webm'];
+    const imageTypes = ['image/apng', 'image/avif', 'image/gif', 'image/jpeg', 'image/png', 'image/svg+xml', 'image/webp'];
     let filterData = [];
     if (database.allData.length > 0) {
-      filterData = database.allData.filter((msg) => msg.data.file);
+      filterData = database.allData.filter((msg) => !audioTypes.includes(msg.data.type) && 
+      !videoTypes.includes(msg.data.type) && !imageTypes.includes(msg.data.type) &&
+      msg.data.type !== 'text' && !imageTypes.includes(msg.data.type));
+    }
+    const result = {
+      status: 'ok',
+      fiels: filterData,
+    }
+    resolve(result);
+    
+  }
+  catch (err) {
+    console.log(err);
+  }
+});
+
+exports.getMedia = (ctx) => new Promise((resolve, reject) => {
+  try {
+    const audioTypes = ['audio/ogg', 'audio/wav', 'audio/mp3', 'audio/mpeg'];
+    const videoTypes = ['video/mp4', 'video/ogg', 'video/webm'];
+    const imageTypes = ['image/apng', 'image/avif', 'image/gif', 'image/jpeg', 'image/png', 'image/svg+xml', 'image/webp'];
+    let filterData = [];
+    if (database.allData.length > 0) {
+      filterData = database.allData.filter((msg) => audioTypes.includes(msg.data.type) || 
+      videoTypes.includes(msg.data.type) || imageTypes.includes(msg.data.type))
     }
     const result = {
       status: 'ok',

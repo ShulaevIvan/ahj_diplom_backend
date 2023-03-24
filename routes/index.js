@@ -10,6 +10,7 @@ const searchMessages = require('./searchMessages/searchMessages');
 const getWeather = require('./commands/getWeather');
 const deleteAllMessages = require('./commands/deleteAllMessages');
 const getFiles = require('./commands/getFiles');
+const getMedia = require('./commands/getMedia');
 
 
 const router = combineRouters(
@@ -24,6 +25,7 @@ const router = combineRouters(
   getWeather,
   deleteAllMessages,
   getFiles,
+  getMedia
 );
 
 module.exports = router;
