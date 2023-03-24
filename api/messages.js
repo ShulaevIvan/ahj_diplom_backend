@@ -159,7 +159,7 @@ exports.getFiles = (ctx) => new Promise((resolve, reject) => {
 
 exports.getMedia = (ctx) => new Promise((resolve, reject) => {
   try {
-    const audioTypes = ['audio/ogg', 'audio/wav', 'audio/mp3', 'audio/mpeg'];
+    const audioTypes = ['audio/ogg', 'audio/wav', 'audio/mp3', 'audio/mpeg', 'audio'];
     const videoTypes = ['video/mp4', 'video/ogg', 'video/webm'];
     const imageTypes = ['image/apng', 'image/avif', 'image/gif', 'image/jpeg', 'image/png', 'image/svg+xml', 'image/webp'];
     let filterData = [];
