@@ -63,7 +63,7 @@ exports.getLastId = (ctx) => new Promise((resolve, reject) => {
   try {
     const result = {
       status: 'ok',
-      lastId: database.lastId()
+      lastId: database.lastId(ctx)
     };
     resolve(result);
   }

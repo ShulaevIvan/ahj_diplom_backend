@@ -61,7 +61,9 @@ class Database {
     }
 
     lastId() {
-        return this.id;
+        const lastId = this.id;
+        this.incrementId();
+        return lastId
     }
 }
 
