@@ -8,6 +8,7 @@ const router = require('./routes');
 const database = require('./database/db');
 
 const app = new Koa();
+app.use(cors());
 const port = process.env.PORT || 7070;
 const server = http.createServer(app.callback());
 
@@ -35,6 +36,5 @@ wsServer.on('connection', (ws) => {
 app.use(koaBody({
   urlencoded: true,
 }));
-app.use(cors());
 app.use(router());
 server.listen(port);

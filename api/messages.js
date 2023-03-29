@@ -178,3 +178,45 @@ exports.getMedia = (ctx) => new Promise((resolve, reject) => {
     console.log(err);
   }
 });
+
+exports.setPinnedMessage = (ctx) => new Promise((resolve, reject) => {
+  try {
+    const { id } = ctx.request.body;
+    console.log(ctx.request.body)
+    let pinned;
+    database.allData.forEach((item) => {
+      if (item.data.id == id) {
+        item.data.pinned = true;
+        pinned = item.data;
+      }
+    })
+    const result = {
+      status: 'ok',
+      pinnedMessage: pinned
+    }
+    resolve(result);
+    
+  }
+  catch (err) {
+    console.log(err);
+  }
+});
+
+exports.rmPinnedMessage = (ctx) => new Promise((resolve, reject) => {
+  try {
+    const { id } = ctx.request.body;
+    database.allData.forEach((item) => {
+      if (item.data.id == id) {
+        item.data.pinned = false;
+      }
+    })
+    const result = {
+      status: 'ok',
+    }
+    resolve(result);
+    
+  }
+  catch (err) {
+    console.log(err);
+  }
+});
