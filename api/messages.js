@@ -220,3 +220,54 @@ exports.rmPinnedMessage = (ctx) => new Promise((resolve, reject) => {
     console.log(err);
   }
 });
+
+exports.getCounterByType = (type) => new Promise((resolve, reject) => {
+  try {
+    setTimeout(() => {
+      const resultArr = database.allData.filter((msgObj) => msgObj.data.type === type);
+      const result = {
+        status: 'ok',
+        counter: resultArr.length,
+        messages: resultArr
+      }
+      resolve(result);
+    }, 500)
+  }
+  catch (err) {
+    console.log(err);
+  }
+});
+
+exports.getMessagesByType = (ctx) => new Promise((resolve, reject) => {
+  try {
+    const type = ctx.request.url.match(/(\w+\/\w+)$|\w+$/g)[0];
+    console.log(type)
+    const typesObj = {
+      text: 'text',
+      image: ['image/apng', 'image/avif', 'image/gif', 'image/jpeg', 'image/png', 'image/svg+xml', 'image/webp', 'image/avif', 'image/bmp'],
+      audio: ['audio/ogg', 'audio/wav', 'audio/mp3', 'audio/mpeg'],
+      video: ['video/mp4', 'video/ogg', 'video/webm', 'video/x-msvideo'],
+      fiels: [
+        'application/x-abiword', 'application/x-freearc', 'application/vnd.amazon.ebook', 'application/x-bzip', 'application/x-bzip2',
+        'text/csv', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        'application/vnd.ms-fontobject', 'application/gzip', 'text/html', 'application/pdf', 'application/vnd.rar'
+      ]
+    }
+    const resultArr = [];
+    database.allData.forEach((item) => {
+      if (typesObj[type].includes(item.data.type)) {
+        resultArr.push(item);
+      }
+    });
+    
+    const result = {
+      status: 'ok',
+      messages: resultArr
+    }
+    resolve(result);
+
+  }
+  catch (err) {
+    console.log(err);
+  }
+});

@@ -13,6 +13,8 @@ const getFiles = require('./commands/getFiles');
 const getMedia = require('./commands/getMedia');
 const setPinnedMessage = require('./setPinnedMessage/setPinnedMessage');
 const rmPinnedMessage = require('./rmPinnedMessage/rmPinndedMessage');
+const getCounterByType = require('./getCounterByType/getCounterByType');
+const getMessagesByType = require('./messagesByType/messagesByType');
 
 
 const router = combineRouters(
@@ -30,6 +32,8 @@ const router = combineRouters(
   getMedia,
   setPinnedMessage,
   rmPinnedMessage,
+  getCounterByType,
+  getMessagesByType
 );
 
 module.exports = router;
