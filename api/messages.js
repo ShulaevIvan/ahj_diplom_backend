@@ -95,7 +95,17 @@ exports.loadHistory = (ctx) => new Promise((resolve, reject) => {
 exports.searchMessages = (ctx) => new Promise((resolve, reject) => {
   try {
     const searchName = ctx.request.query;
-    const searchData = database.allData.filter((findObj) => findObj.data.name === searchName.text)
+    let searchData = database.allData.filter((findObj) => findObj.data.name.toLowerCase() === searchName.text.toLowerCase());
+    if (searchData.length === 0) {
+      let counter = 0;
+      searchData = []
+      const pattern = new RegExp(`${searchName.text.toLowerCase()}`, 'g')
+      database.allData.forEach((findObj, i) => {
+        if (findObj.data.name.toLowerCase().match(pattern)) {
+          searchData.push({ data: findObj.data }) 
+        }
+      });
+    }
     const result = {
       status: 'ok',
       messages: searchData
@@ -243,7 +253,7 @@ exports.getMessagesByType = (ctx) => new Promise((resolve, reject) => {
     const type = ctx.request.url.match(/(\w+\/\w+)$|\w+$/g)[0];
     console.log(type)
     const typesObj = {
-      text: 'text',
+      text: ['text', 'url'],
       image: ['image/apng', 'image/avif', 'image/gif', 'image/jpeg', 'image/png', 'image/svg+xml', 'image/webp', 'image/avif', 'image/bmp'],
       audio: ['audio/ogg', 'audio/wav', 'audio/mp3', 'audio/mpeg'],
       video: ['video/mp4', 'video/ogg', 'video/webm', 'video/x-msvideo'],
