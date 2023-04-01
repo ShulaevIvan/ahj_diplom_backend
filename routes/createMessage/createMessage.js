@@ -5,8 +5,7 @@ const router = new Router();
 router.allowedMethods();
 
 router.post('/messages/add/', async (ctx) => {
-
-    const result = await api.addMesssage(ctx.request.body);
+    const result = await api.createMessage(ctx);
     ctx.status = 201;
 });
 

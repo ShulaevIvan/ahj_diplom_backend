@@ -24,7 +24,7 @@ wsServer.on('connection', (ws) => {
   ws.on('message', (e) => {
     const data = JSON.parse(e.toString());
     if (data) {
-      // const id = database.incrementId()
+      console.log(data)
       database.add(data);
     }
   });

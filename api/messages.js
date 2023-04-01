@@ -12,6 +12,17 @@ exports.getMessages = (ctx) => new Promise((resolve, reject) => {
     }
 });
 
+exports.createMessage = (ctx) => new Promise((resolve, reject) => {
+  try {
+    const result = {
+      status: 'ok',
+    };
+    resolve(result);
+  } catch (err) {
+    reject(err);
+  }
+});
+
 
 exports.lastMessages = (ctx) => new Promise((resolve, reject) => {
   try {
@@ -235,6 +246,7 @@ exports.getCounterByType = (type) => new Promise((resolve, reject) => {
   try {
     setTimeout(() => {
       const resultArr = database.allData.filter((msgObj) => msgObj.data.type === type);
+
       const result = {
         status: 'ok',
         counter: resultArr.length,
