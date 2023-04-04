@@ -203,7 +203,6 @@ exports.getMedia = (ctx) => new Promise((resolve, reject) => {
 exports.setPinnedMessage = (ctx) => new Promise((resolve, reject) => {
   try {
     const { id } = ctx.request.body;
-    console.log(ctx.request.body)
     let pinned;
     database.allData.forEach((item) => {
       if (item.data.id == id) {
@@ -245,15 +244,49 @@ exports.rmPinnedMessage = (ctx) => new Promise((resolve, reject) => {
 exports.getCounterByType = (type) => new Promise((resolve, reject) => {
   try {
     setTimeout(() => {
-      const resultArr = database.allData.filter((msgObj) => msgObj.data.type === type);
-
-      const result = {
-        status: 'ok',
-        counter: resultArr.length,
-        messages: resultArr
+      const typesObj = {
+        text: ['text', 'url'],
+        image: ['image/apng', 'image/avif', 'image/gif', 'image/jpeg', 'image/png', 'image/svg+xml', 'image/webp', 'image/avif', 'image/bmp'],
+        audio: ['audio/ogg', 'audio/wav', 'audio/mp3', 'audio/mpeg'],
+        video: ['video/mp4', 'video/ogg', 'video/webm', 'video/x-msvideo'],
+        fiels: [
+          'application/x-abiword', 'application/x-freearc', 'application/vnd.amazon.ebook', 'application/x-bzip', 'application/x-bzip2',
+          'text/csv', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+          'application/vnd.ms-fontobject', 'application/gzip', 'text/html', 'application/pdf', 'application/vnd.rar'
+        ],
+        geolocation: ['geolocation']
       }
-      resolve(result);
-    }, 500)
+      let resultArr = [];
+      
+      new Promise((resolve, reject) => {
+        console.log(type)
+        if (type === 'geolocation' || type === 'image') {
+          database.allData.forEach((msgObj) => {
+            if (typesObj[type].includes(msgObj.data.type)) {
+              resultArr.push(msgObj.data)
+            }
+          });
+        }
+        else {
+          database.allData.forEach((msgObj) => {
+            if (typesObj[type].includes(msgObj.data.type)) {
+              resultArr.push(msgObj.data)
+            }
+          });
+        }
+        
+        resolve(resultArr);
+      })
+      .then((data) => {
+        const result = {
+          status: 'ok',
+          counter: data.length,
+          messages: data
+        }
+        resolve(result);
+      });
+    }, 1000)
+      
   }
   catch (err) {
     console.log(err);
@@ -262,30 +295,36 @@ exports.getCounterByType = (type) => new Promise((resolve, reject) => {
 
 exports.getMessagesByType = (ctx) => new Promise((resolve, reject) => {
   try {
-    const type = ctx.request.url.match(/(\w+\/\w+)$|\w+$/g)[0];
-    console.log(type)
+    let type = ctx.request.url.match(/(\w+\/\w+)$|\w+$/g)[0];
     const typesObj = {
       text: ['text', 'url'],
-      image: ['image/apng', 'image/avif', 'image/gif', 'image/jpeg', 'image/png', 'image/svg+xml', 'image/webp', 'image/avif', 'image/bmp'],
+      image: ['image/png', 'image/avif', 'image/gif', 'image/jpeg', 'image/png', 'image/svg+xml', 'image/webp', 'image/avif', 'image/bmp'],
       audio: ['audio/ogg', 'audio/wav', 'audio/mp3', 'audio/mpeg'],
       video: ['video/mp4', 'video/ogg', 'video/webm', 'video/x-msvideo'],
       fiels: [
         'application/x-abiword', 'application/x-freearc', 'application/vnd.amazon.ebook', 'application/x-bzip', 'application/x-bzip2',
         'text/csv', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        'application/vnd.ms-fontobject', 'application/gzip', 'text/html', 'application/pdf', 'application/vnd.rar'
-      ]
+        'application/vnd.ms-fontobject', 'application/gzip', 'text/html', 'application/pdf', 'application/vnd.rar',
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      ],
+      geolocation: ['geolocation']
     }
-    const resultArr = [];
+    let resultArr = [];
     database.allData.forEach((item) => {
-      if (typesObj[type].includes(item.data.type)) {
+      if (type === 'image') {
+        if (item.data.type === 'geolocation'|| typesObj['image'].includes(item.data.type)) {
+          resultArr.push(item);
+        }
+      }
+      else if (type !== 'image' && type !== 'geolocation' && typesObj[type].includes(item.data.type)) {
         resultArr.push(item);
       }
     });
-    
     const result = {
       status: 'ok',
       messages: resultArr
     }
+    resultArr = undefined;
     resolve(result);
 
   }
