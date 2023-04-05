@@ -243,7 +243,6 @@ exports.rmPinnedMessage = (ctx) => new Promise((resolve, reject) => {
 
 exports.getCounterByType = (type) => new Promise((resolve, reject) => {
   try {
-    setTimeout(() => {
       const typesObj = {
         text: ['text', 'url'],
         image: ['image/apng', 'image/avif', 'image/gif', 'image/jpeg', 'image/png', 'image/svg+xml', 'image/webp', 'image/avif', 'image/bmp'],
@@ -259,10 +258,10 @@ exports.getCounterByType = (type) => new Promise((resolve, reject) => {
       let resultArr = [];
       
       new Promise((resolve, reject) => {
-        console.log(type)
+        console.log(database.allData)
         if (type === 'geolocation' || type === 'image') {
           database.allData.forEach((msgObj) => {
-            if (typesObj[type].includes(msgObj.data.type)) {
+            if (typesObj[type].includes(msgObj.data.type) || msgObj.data.type === 'geolocation') {
               resultArr.push(msgObj.data)
             }
           });
@@ -274,7 +273,7 @@ exports.getCounterByType = (type) => new Promise((resolve, reject) => {
             }
           });
         }
-        
+        console.log(resultArr.length)
         resolve(resultArr);
       })
       .then((data) => {
@@ -285,7 +284,6 @@ exports.getCounterByType = (type) => new Promise((resolve, reject) => {
         }
         resolve(result);
       });
-    }, 1000)
       
   }
   catch (err) {
@@ -312,7 +310,7 @@ exports.getMessagesByType = (ctx) => new Promise((resolve, reject) => {
     let resultArr = [];
     database.allData.forEach((item) => {
       if (type === 'image') {
-        if (item.data.type === 'geolocation'|| typesObj['image'].includes(item.data.type)) {
+        if (item.data.type === 'geolocation'|| typesObj.image.includes(item.data.type)) {
           resultArr.push(item);
         }
       }
