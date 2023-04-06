@@ -10,5 +10,4 @@ router.get('/messages', async (ctx) => {
   ctx.response.status = 200;
 });
 
-
 module.exports = router;

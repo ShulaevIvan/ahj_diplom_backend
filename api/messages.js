@@ -1,15 +1,15 @@
 const database = require('../database/db');
 
 exports.getMessages = (ctx) => new Promise((resolve, reject) => {
-    try {
-      const result = {
-        status: 'ok',
-        messages: database.allData
-      };
-      resolve(result);
-    } catch (err) {
-      reject(err);
-    }
+  try {
+    const result = {
+      status: 'ok',
+      messages: database.allData,
+    };
+    resolve(result);
+  } catch (err) {
+    reject(err);
+  }
 });
 
 exports.createMessage = (ctx) => new Promise((resolve, reject) => {
@@ -23,19 +23,16 @@ exports.createMessage = (ctx) => new Promise((resolve, reject) => {
   }
 });
 
-
 exports.lastMessages = (ctx) => new Promise((resolve, reject) => {
   try {
     const result = {
       status: 'ok',
-      messages: database.last()
+      messages: database.last(),
     };
     resolve(result);
+  } catch (err) {
+    reject(err);
   }
-  catch (err) {
-    console.log(err);
-  }
-
 });
 
 exports.actualMessages = (ctx) => new Promise((resolve, reject) => {
@@ -46,10 +43,9 @@ exports.actualMessages = (ctx) => new Promise((resolve, reject) => {
       stepStart = 0;
       stepEnd = 10;
       database.historyCounter = stepEnd;
-    }
-    else {
+    } else {
       stepStart = database.historyCounter;
-      stepEnd  = database.historyCounter + 10;
+      stepEnd = database.historyCounter + 10;
     }
     const displayingMessages = ctx;
     const loadingMessages = [];
@@ -58,87 +54,79 @@ exports.actualMessages = (ctx) => new Promise((resolve, reject) => {
         loadingMessages.push(item);
       }
     });
+    // eslint-disable-next-line
     database.history = loadingMessages.sort((a, b) => new Date(a.data.date) - new Date(b.data.date)).reverse();
     const result = {
       status: 'ok',
     };
     resolve(result);
+  } catch (err) {
+    reject(err);
   }
-  catch (err) {
-    console.log(err);
-  }
-
 });
 
 exports.getLastId = (ctx) => new Promise((resolve, reject) => {
   try {
     const result = {
       status: 'ok',
-      lastId: database.lastId(ctx)
+      lastId: database.lastId(ctx),
     };
     resolve(result);
+  } catch (err) {
+    reject(err);
   }
-  catch (err) {
-    console.log(err);
-  }
-
 });
 
 exports.loadHistory = (ctx) => new Promise((resolve, reject) => {
   try {
-    let history = database.history
+    let historyArr = database.history;
     if (database.history.length > 10) {
-      history = database.history.slice(0, 10);
+      historyArr = database.history.slice(0, 10);
     }
 
     const result = {
       status: 'ok',
-      history: history,
+      history: historyArr,
     };
     resolve(result);
+  } catch (err) {
+    reject(err);
   }
-  catch (err) {
-    console.log(err);
-  }
-  
 });
 
 exports.searchMessages = (ctx) => new Promise((resolve, reject) => {
   try {
     const searchName = ctx.request.query;
+    // eslint-disable-next-line
     let searchData = database.allData.filter((findObj) => findObj.data.name.toLowerCase() === searchName.text.toLowerCase());
     if (searchData.length === 0) {
-      let counter = 0;
-      searchData = []
-      const pattern = new RegExp(`${searchName.text.toLowerCase()}`, 'g')
+      searchData = [];
+      const pattern = new RegExp(`${searchName.text.toLowerCase()}`, 'g');
       database.allData.forEach((findObj, i) => {
         if (findObj.data.name.toLowerCase().match(pattern)) {
-          searchData.push({ data: findObj.data }) 
+          searchData.push({ data: findObj.data });
         }
       });
     }
     const result = {
       status: 'ok',
-      messages: searchData
-    }
-    resolve(result)
-  }
-  catch (err) {
-    console.log(err);
+      messages: searchData,
+    };
+    resolve(result);
+  } catch (err) {
+    reject(err);
   }
 });
 
 exports.getWeather = (ctx) => new Promise((resolve, reject) => {
   try {
-    
     const result = {
       status: 'ok',
-      weather: database.generateWeather()
-    }
-    resolve(result)
-  }
-  catch (err) {
-    console.log(err);
+      weather: database.generateWeather(),
+    };
+    resolve(result);
+  } catch (err) {
+    reject(err);
   }
 });
 
@@ -147,11 +135,10 @@ exports.deleteAllMessages = (ctx) => new Promise((resolve, reject) => {
     database.allData = [];
     const result = {
       status: 'ok',
-    }
-    resolve(result)
-  }
-  catch (err) {
-    console.log(err);
+    };
+    resolve(result);
+  } catch (err) {
+    reject(err);
   }
 });
 
@@ -162,19 +149,17 @@ exports.getFiles = (ctx) => new Promise((resolve, reject) => {
     const imageTypes = ['image/apng', 'image/avif', 'image/gif', 'image/jpeg', 'image/png', 'image/svg+xml', 'image/webp'];
     let filterData = [];
     if (database.allData.length > 0) {
-      filterData = database.allData.filter((msg) => !audioTypes.includes(msg.data.type) && 
-      !videoTypes.includes(msg.data.type) && !imageTypes.includes(msg.data.type) &&
-      msg.data.type !== 'text' && !imageTypes.includes(msg.data.type));
+      filterData = database.allData.filter((msg) => !audioTypes.includes(msg.data.type)
+      && !videoTypes.includes(msg.data.type) && !imageTypes.includes(msg.data.type)
+      && msg.data.type !== 'text' && !imageTypes.includes(msg.data.type));
     }
     const result = {
       status: 'ok',
       fiels: filterData,
-    }
+    };
     resolve(result);
-    
-  }
-  catch (err) {
-    console.log(err);
+  } catch (err) {
+    reject(err);
   }
 });
 
@@ -185,18 +170,16 @@ exports.getMedia = (ctx) => new Promise((resolve, reject) => {
     const imageTypes = ['image/apng', 'image/avif', 'image/gif', 'image/jpeg', 'image/png', 'image/svg+xml', 'image/webp'];
     let filterData = [];
     if (database.allData.length > 0) {
-      filterData = database.allData.filter((msg) => audioTypes.includes(msg.data.type) || 
-      videoTypes.includes(msg.data.type) || imageTypes.includes(msg.data.type))
+      filterData = database.allData.filter((msg) => audioTypes.includes(msg.data.type)
+      || videoTypes.includes(msg.data.type) || imageTypes.includes(msg.data.type));
     }
     const result = {
       status: 'ok',
-      fiels: filterData
-    }
+      fiels: filterData,
+    };
     resolve(result);
-    
-  }
-  catch (err) {
-    console.log(err);
+  } catch (err) {
+    reject(err);
   }
 });
 
@@ -205,20 +188,19 @@ exports.setPinnedMessage = (ctx) => new Promise((resolve, reject) => {
     const { id } = ctx.request.body;
     let pinned;
     database.allData.forEach((item) => {
-      if (item.data.id == id) {
+      if (Number(item.data.id) === Number(id)) {
+        // eslint-disable-next-line
         item.data.pinned = true;
         pinned = item.data;
       }
-    })
+    });
     const result = {
       status: 'ok',
-      pinnedMessage: pinned
-    }
+      pinnedMessage: pinned,
+    };
     resolve(result);
-    
-  }
-  catch (err) {
-    console.log(err);
+  } catch (err) {
+    reject(err);
   }
 });
 
@@ -226,74 +208,68 @@ exports.rmPinnedMessage = (ctx) => new Promise((resolve, reject) => {
   try {
     const { id } = ctx.request.body;
     database.allData.forEach((item) => {
-      if (item.data.id == id) {
+      if (Number(item.data.id) === Number(id)) {
+        // eslint-disable-next-line
         item.data.pinned = false;
       }
-    })
+    });
     const result = {
       status: 'ok',
-    }
+    };
     resolve(result);
-    
-  }
-  catch (err) {
-    console.log(err);
+  } catch (err) {
+    reject(err);
   }
 });
 
 exports.getCounterByType = (type) => new Promise((resolve, reject) => {
   try {
-      const typesObj = {
-        text: ['text', 'url'],
-        image: ['image/apng', 'image/avif', 'image/gif', 'image/jpeg', 'image/png', 'image/svg+xml', 'image/webp', 'image/avif', 'image/bmp'],
-        audio: ['audio/ogg', 'audio/wav', 'audio/mp3', 'audio/mpeg'],
-        video: ['video/mp4', 'video/ogg', 'video/webm', 'video/x-msvideo'],
-        fiels: [
-          'application/x-abiword', 'application/x-freearc', 'application/vnd.amazon.ebook', 'application/x-bzip', 'application/x-bzip2',
-          'text/csv', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-          'application/vnd.ms-fontobject', 'application/gzip', 'text/html', 'application/pdf', 'application/vnd.rar'
-        ],
-        geolocation: ['geolocation']
+    const typesObj = {
+      text: ['text', 'url'],
+      image: ['image/apng', 'image/avif', 'image/gif', 'image/jpeg', 'image/png', 'image/svg+xml', 'image/webp', 'image/avif', 'image/bmp'],
+      audio: ['audio/ogg', 'audio/wav', 'audio/mp3', 'audio/mpeg'],
+      video: ['video/mp4', 'video/ogg', 'video/webm', 'video/x-msvideo'],
+      fiels: [
+        'application/x-abiword', 'application/x-freearc', 'application/vnd.amazon.ebook', 'application/x-bzip', 'application/x-bzip2',
+        'text/csv', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        'application/vnd.ms-fontobject', 'application/gzip', 'text/html', 'application/pdf', 'application/vnd.rar',
+      ],
+      geolocation: ['geolocation'],
+    };
+    const resultArr = [];
+
+    new Promise((res, rej) => {
+      if (type === 'geolocation' || type === 'image') {
+        database.allData.forEach((msgObj) => {
+          if (typesObj[type].includes(msgObj.data.type) || msgObj.data.type === 'geolocation') {
+            resultArr.push(msgObj.data);
+          }
+        });
+      } else {
+        database.allData.forEach((msgObj) => {
+          if (typesObj[type].includes(msgObj.data.type)) {
+            resultArr.push(msgObj.data);
+          }
+        });
       }
-      let resultArr = [];
-      
-      new Promise((resolve, reject) => {
-        console.log(database.allData)
-        if (type === 'geolocation' || type === 'image') {
-          database.allData.forEach((msgObj) => {
-            if (typesObj[type].includes(msgObj.data.type) || msgObj.data.type === 'geolocation') {
-              resultArr.push(msgObj.data)
-            }
-          });
-        }
-        else {
-          database.allData.forEach((msgObj) => {
-            if (typesObj[type].includes(msgObj.data.type)) {
-              resultArr.push(msgObj.data)
-            }
-          });
-        }
-        console.log(resultArr.length)
-        resolve(resultArr);
-      })
+      res(resultArr);
+    })
       .then((data) => {
         const result = {
           status: 'ok',
           counter: data.length,
-          messages: data
-        }
+          messages: data,
+        };
         resolve(result);
       });
-      
-  }
-  catch (err) {
-    console.log(err);
+  } catch (err) {
+    reject(err);
   }
 });
 
 exports.getMessagesByType = (ctx) => new Promise((resolve, reject) => {
   try {
-    let type = ctx.request.url.match(/(\w+\/\w+)$|\w+$/g)[0];
+    const type = ctx.request.url.match(/(\w+\/\w+)$|\w+$/g)[0];
     const typesObj = {
       text: ['text', 'url'],
       image: ['image/png', 'image/avif', 'image/gif', 'image/jpeg', 'image/png', 'image/svg+xml', 'image/webp', 'image/avif', 'image/bmp'],
@@ -305,28 +281,25 @@ exports.getMessagesByType = (ctx) => new Promise((resolve, reject) => {
         'application/vnd.ms-fontobject', 'application/gzip', 'text/html', 'application/pdf', 'application/vnd.rar',
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       ],
-      geolocation: ['geolocation']
-    }
+      geolocation: ['geolocation'],
+    };
     let resultArr = [];
     database.allData.forEach((item) => {
       if (type === 'image') {
-        if (item.data.type === 'geolocation'|| typesObj.image.includes(item.data.type)) {
+        if (item.data.type === 'geolocation' || typesObj.image.includes(item.data.type)) {
           resultArr.push(item);
         }
-      }
-      else if (type !== 'image' && type !== 'geolocation' && typesObj[type].includes(item.data.type)) {
+      } else if (type !== 'image' && type !== 'geolocation' && typesObj[type].includes(item.data.type)) {
         resultArr.push(item);
       }
     });
     const result = {
       status: 'ok',
-      messages: resultArr
-    }
+      messages: resultArr,
+    };
     resultArr = undefined;
     resolve(result);
-
-  }
-  catch (err) {
-    console.log(err);
+  } catch (err) {
+    reject(err);
   }
 });

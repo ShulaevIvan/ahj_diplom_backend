@@ -27,10 +27,7 @@ wsServer.on('connection', (ws) => {
       database.add(data);
     }
   });
-
-
 });
-
 
 app.use(koaBody({
   urlencoded: true,

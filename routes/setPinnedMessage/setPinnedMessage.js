@@ -3,7 +3,6 @@ const api = require('../../api/messages');
 
 const router = new Router();
 
-
 router.post('/messages/setpinned', async (ctx) => {
   const result = await api.setPinnedMessage(ctx);
   ctx.response.body = result;

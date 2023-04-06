@@ -5,11 +5,9 @@ const router = new Router();
 router.allowedMethods();
 
 router.get('/commands/weather', async (ctx) => {
-
-    const result = await api.getWeather();
-    ctx.response.body = result;
-    ctx.status = 200;
+  const result = await api.getWeather();
+  ctx.response.body = result;
+  ctx.status = 200;
 });
-
 
 module.exports = router;

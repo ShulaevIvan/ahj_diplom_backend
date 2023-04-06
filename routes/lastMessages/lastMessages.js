@@ -5,10 +5,9 @@ const router = new Router();
 router.allowedMethods();
 
 router.get('/messages/last', async (ctx) => {
-
-    const result = await api.lastMessages(ctx.request.body);
-    ctx.response.body = result;
-    ctx.response.status = 200;
+  const result = await api.lastMessages(ctx.request.body);
+  ctx.response.body = result;
+  ctx.response.status = 200;
 });
 
 module.exports = router;

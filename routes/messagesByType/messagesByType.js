@@ -5,9 +5,9 @@ const router = new Router();
 router.allowedMethods();
 
 router.get('/messages/types', async (ctx) => {
-    const result = await api.getMessagesByType(ctx);
-    ctx.response.body = result;
-    ctx.response.status = 200;
+  const result = await api.getMessagesByType(ctx);
+  ctx.response.body = result;
+  ctx.response.status = 200;
 });
 
 module.exports = router;

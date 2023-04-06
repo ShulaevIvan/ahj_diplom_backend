@@ -16,7 +16,6 @@ const rmPinnedMessage = require('./rmPinnedMessage/rmPinndedMessage');
 const getCounterByType = require('./getCounterByType/getCounterByType');
 const getMessagesByType = require('./messagesByType/messagesByType');
 
-
 const router = combineRouters(
   index,
   messages,
@@ -33,7 +32,7 @@ const router = combineRouters(
   setPinnedMessage,
   rmPinnedMessage,
   getCounterByType,
-  getMessagesByType
+  getMessagesByType,
 );
 
 module.exports = router;

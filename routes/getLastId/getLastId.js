@@ -5,10 +5,9 @@ const router = new Router();
 router.allowedMethods();
 
 router.get('/messages/lastid', async (ctx) => {
-    const result = await api.getLastId();
-    ctx.response.body = result;
-    ctx.status = 200;
+  const result = await api.getLastId();
+  ctx.response.body = result;
+  ctx.status = 200;
 });
-
 
 module.exports = router;
